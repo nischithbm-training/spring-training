@@ -28,6 +28,7 @@
       <td>Spring Framework Essentials</td>
       <td>
         <ul>
+          <li>Spring Factory Bean</li>
           <li>
             <div>
               Configuring Spring Application
