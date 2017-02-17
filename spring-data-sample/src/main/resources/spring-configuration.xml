@@ -38,7 +38,7 @@
 		p:password="${app.password}"
 		p:initialSize="${app.initialSize}" 
 		p:minIdle="${app.minIdle}"
-		p:maxActive="${app.rebill.maxActive}"
+		p:maxActive="${app.maxActive}"
 		p:validationQuery="${app.validationQuery}"
 		p:testOnBorrow="${app.testOnBorrow}"
 		p:testOnReturn="${app.testOnReturn}"
