@@ -1,4 +1,4 @@
-package org.nischithbm.sample.springdata;
+package org.nischithbm.sample.springdata.dto;
 
 import java.io.Serializable;
 
