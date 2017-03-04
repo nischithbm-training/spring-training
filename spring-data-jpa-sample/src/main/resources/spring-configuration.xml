@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/data/jpa
+		http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<context:component-scan base-package="org.nischithbm.springdata" />
+	
+	
+	<bean id="appPropertyPlaceholderConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:application.properties</value>
+ 			</list>
+		</property>
+	</bean>
+	
+	
+	 <!-- Hibernate Configuration Start -->
+    <jpa:repositories base-package="org.nischithbm.springdata.repository" />
+    
+	<bean id="appDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+		p:driverClassName="${app.jdbc.driverClassName}" 
+		p:url="${app.connectionURL}"
+		p:username="${app.username}" 
+		p:password="${app.password}"
+		p:initialSize="${app.initialSize}" 
+		p:minIdle="${app.minIdle}"
+		p:maxActive="${app.maxActive}"
+		p:validationQuery="${app.validationQuery}"
+		p:testOnBorrow="${app.testOnBorrow}"
+		p:testOnReturn="${app.testOnReturn}"
+		p:testWhileIdle="${app.testWhileIdle}"
+		p:numTestsPerEvictionRun="${app.numTestsPerEvictionRun}"
+		p:timeBetweenEvictionRunsMillis="${app.timeBetweenEvictionRunsMillis}"
+		p:minEvictableIdleTimeMillis="${app.minEvictableIdleTimeMillis}" />
+
+
+	<bean id="appEntityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="appDataSource" />
+		<property name="packagesToScan" value="org.nischithbm.springdata.dto" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="entityManagerFactoryInterface" value="org.hibernate.ejb.HibernateEntityManagerFactory" />
+		<property name="entityManagerInterface" value="org.hibernate.ejb.HibernateEntityManager" />
+		
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">${app.hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${app.hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${app.hibernate.format_sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${app.hibernate.hbm2ddl.auto}</prop>
+<!-- 				<prop key="hibernate.default_schema">${jdbc.default_schema}</prop> -->
+				<prop key="hibernate.cache.use_query_cache">${app.hibernate.cache.use_query_cache}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">${app.hibernate.cache.use_second_level_cache}</prop>
+				<prop key="hibernate.cache.region.factory_class">${app.hibernate.cache.region.factory_class}</prop>
+			</props>
+		</property>
+	</bean>
+	
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="appEntityManagerFactory" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<bean id="persistenceExceptionTranslationPostProcessor" 
+		  class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+		
+	<!-- Hibernate Configuration End -->
+	
+	
+	
+</beans>
+        

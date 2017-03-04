@@ -3,7 +3,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.nischithbm.sample</groupId>
-	<artifactId>spring-data-sample</artifactId>
+	<artifactId>spring-boot-data-sample</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<parent>
